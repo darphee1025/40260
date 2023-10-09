@@ -1,0 +1,9 @@
+﻿states:
+	name: first_bit
+	doc: xxx
+	datatype: 
+	section:
+	accessType:
+	resetValue:
+	readError:
+	values:

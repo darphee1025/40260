@@ -1,0 +1,28 @@
+{ signal: [
+  {                      node: '....A.H...B....C..D',phase:1},
+  { name: 'DBG        ', wave: '0..1......0........',phase:1},
+  {                      node: '......I............',phase:1},
+  { name: 'VSUP1/2    ', wave: '0..1...............',phase:1},
+  {                      node: '......J............',phase:1},
+  { name: 'WAKE1 or 2 ', wave: '0...1..............',phase:1},
+  {                      node: '...................',phase:1},
+  { name: 'SPI/I2C    ', wave: 'z....3...z.....3..z',phase:1,data:'SPI/I2C-OTP-pgm  SPI/I2C'},
+  {                      node: '...................',phase:1},
+  { name: 'REGx       ', wave: 'z..3......3....3..3',phase:1,data:'OFF PWR-UP ON'},
+  {                      node: '....U.....V....W..X',phase:1},
+  {},
+  ],
+ 
+  foot:{
+   text:'Figure 8 Debug mode entry',
+   tock:0
+ },
+
+  edge: [
+     'A-|U','B-|V','C-|W','D-|X',
+     'H VDBG',
+     'I >Vsup_uhv',
+     'J >WAKE12(VIH)',
+     'U+V 5 ms'
+  ]
+}

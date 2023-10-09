@@ -1,0 +1,1 @@
+../6_sim/pattern/test_case/ptn.v

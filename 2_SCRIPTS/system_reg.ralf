@@ -1,0 +1,1500 @@
+#write below command in Makefile
+#ralgen:
+#    ralgen -l sv  -uvm  -t  system_reg_regmodel  system_reg.ralf
+#use 'source system_reg.ralf' in top.ralf
+#}
+
+register FS_STATES {
+#  ToDo
+  field reserved1 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field dbg_exit {
+    bits 1;
+    access wo;
+    reset 'b0;
+  }
+  field dbg_mode {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field reserved2 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field otp_corrupt {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field reserved3 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field reg_corrupt {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field reserved4 {
+    bits 4;
+    access rw;
+    reset 'b0;
+  }
+  field fsm_state {
+    bits 5;
+    access ro;
+    reset 'h6;
+  }
+}
+
+register FS_INTB_MASK {
+#  ToDo
+  field reserved5 {
+    bits 6;
+    access rw;
+    reset 'b0;
+  }
+  field int_inh_vmon4_ov_uv {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field int_inh_vmon4_ov_uv {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field int_inh_vmon2_ov_uv {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field int_inh_vmon1_ov_uv {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field int_inh_vddio_ov_uv {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field int_inh_vcoremon_ov_uv {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field int_inh_bad_wd_refresh {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field int_inh_errmon {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field int_inh_fccu2 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field int_inh_fccu1 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+}
+
+register FS_DIAG_SAFETY {
+#  ToDo
+  field fccu12 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field fccu1 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field fccu2 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field errmon_ack {
+    bits 1;
+    access wo;
+    reset 'b0;
+  }
+  field errmon {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field errmon_status {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field bad_wd_data {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field bad_wd_timing {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field abist1_ok {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field abist2_ok {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field spi_fs_clk {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field spi_fs_req {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field spi_fs_crc {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field i2c_fs_crc {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field i2c_fs_req {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field lbist_ok {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+}
+
+register FS_SAFE_IOS {
+#  ToDo
+  field pgood_diag {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field pgood_event {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field pgood_sns {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field ext_rstb {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field rstb_drv {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field rstb_sns {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field rstb_event {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field rstb_diag {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field rstb_req {
+    bits 1;
+    access wo;
+    reset 'b0;
+  }
+  field fs0b_drv {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field fs0b_sns {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field fs0b_diag {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field fs0b_req {
+    bits 1;
+    access wo;
+    reset 'b0;
+  }
+  field gpio_initfs {
+    bits 1;
+    access wo;
+    reset 'b0;
+  }
+  field fccu2_rt {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field fccu1_rt {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+}
+
+register FS_RELEASE_FS0B {
+#  ToDo
+  field release_fs0b {
+    bits 16;
+    access wo;
+    reset 'b0;
+  }
+}
+
+register FS_OVUVREG_STATUS {
+#  ToDo
+  field vcoremon_ov {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vcoremon_uv {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vddio_ov {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vddio_uv {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vmon4_ov {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vmon4_uv {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vmon3_ov {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vmon3_uv {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vmon2_ov {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vmon2_uv {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vmon1_ov {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vmon1_uv {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field reserved6 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field fs_dig_ref_ov {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field fs_osc_drift {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field reserved7 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+}
+
+register FS_WD_ANSWER {
+#  ToDo
+  field wd_answer {
+    bits 16;
+    access rw;
+    reset 'b0;
+  }
+}
+
+register FS_WD_SEED {
+#  ToDo
+  field wd_ seed {
+    bits 16;
+    access rw;
+    reset 'h5ab2;
+  }
+}
+
+register FS_WD_WINDOW {
+#  ToDo
+  field wdw_period {
+    bits 5;
+    access rw;
+    reset 'h3;
+  }
+  field wdw_dc {
+    bits 3;
+    access rw;
+    reset 'h2;
+  }
+  field reserved8 {
+    bits 4;
+    access rw;
+    reset 'b0;
+  }
+  field wdw_recovery {
+    bits 4;
+    access rw;
+    reset 'hb;
+  }
+}
+
+register FS_I_SVS {
+#  ToDo
+  field svs_offset {
+    bits 5;
+    access rw;
+    reset 'h0;
+  }
+  field reserved9 {
+    bits 11;
+    access rw;
+    reset 'b0;
+  }
+}
+
+register FS_I_FSSM {
+#  ToDo
+  field flt_err_cnt_limit {
+    bits 2;
+    access rw;
+    reset 'h1;
+  }
+  field reserved10 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field flt_err_impact {
+    bits 2;
+    access rw;
+    reset 'h2;
+  }
+  field reserved11 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field rstb_dur {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field reserved12 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field fs0b_sc_high_cfg {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field reserved13 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field clk_mon_dis {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field dis_8s {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field flt_err_cnt {
+    bits 4;
+    access ro;
+    reset 'h1;
+  }
+}
+
+register FS_I_SAFE_INPUTS {
+#  ToDo
+  field fccu_cfg {
+    bits 2;
+    access rw;
+    reset 'h1;
+  }
+  field reserved14 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field fccu12_flt_pol {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field fccu1_flt_pol {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field fccu2_flt_pol {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field reserved15 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field fccu12_fs_impact {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field fccu1_fs_impact {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field fccu2_fs_impact {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field reserved16 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field errmon_flt_pol {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field errmon_ack_time {
+    bits 2;
+    access rw;
+    reset 'h1;
+  }
+  field errmon_fs_impact {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field reserved17 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+}
+
+register FS_I_WD_CFG {
+#  ToDo
+  field wd_err_limit {
+    bits 2;
+    access rw;
+    reset 'h1;
+  }
+  field reserved18 {
+    bits 2;
+    access rw;
+    reset 'b0;
+  }
+  field wd_rfr_limit {
+    bits 2;
+    access rw;
+    reset 'h0;
+  }
+  field wd_fs_impact {
+    bits 2;
+    access rw;
+    reset 'h2;
+  }
+  field reserved19 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field wd_rfr_cnt {
+    bits 3;
+    access rw;
+    reset 'h0;
+  }
+  field wd_err_cnt {
+    bits 4;
+    access ro;
+    reset 'b0;
+  }
+}
+
+register FS_I_OVUV_SAFE_REACTION2 {
+#  ToDo
+  field vmon4_ov_fs_impact {
+    bits 2;
+    access rw;
+    reset 'h3;
+  }
+  field vmon4_uv_fs_impact {
+    bits 2;
+    access rw;
+    reset 'h1;
+  }
+  field vmon3_ov_fs_impact {
+    bits 2;
+    access rw;
+    reset 'h3;
+  }
+  field vmon3_uv_fs_impact {
+    bits 2;
+    access rw;
+    reset 'h1;
+  }
+  field vmon2_ov_fs_impact {
+    bits 2;
+    access rw;
+    reset 'h3;
+  }
+  field vmon2_uv_fs_impact {
+    bits 2;
+    access rw;
+    reset 'b1;
+  }
+  field vmon1_ov_fs_impact {
+    bits 2;
+    access rw;
+    reset 'h3;
+  }
+  field vmon1_uv_fs_impact {
+    bits 2;
+    access rw;
+    reset 'h1;
+  }
+}
+
+register FS_I_OVUV_SAFE_REACTION1 {
+#  ToDo
+  field vcoremon_ov_fs_impact {
+    bits 2;
+    access rw;
+    reset 'h3;
+  }
+  field vcoremon_uv_fs_impact {
+    bits 2;
+    access rw;
+    reset 'b0;
+  }
+  field reserved20 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vcoremon_abist2 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vddio_abist2 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vmon1_abist2 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vmon2_abist2 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vmon3_abist2 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vmon4_abist2 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field reserved21 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vddio_ov_fs_impact {
+    bits 2;
+    access rw;
+    reset 'h3;
+  }
+  field vddio_uv_fs_impact {
+    bits 2;
+    access rw;
+    reset 'b0;
+  }
+}
+
+register FS_GRL_FLAGS_REGISTER {
+#  ToDo
+  field fs_com_g {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field fs_wd_g {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field fs_io_g {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field fs_reg_ovuv_g {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field reserved22 {
+    bits 12;
+    access rw;
+    reset 'b0;
+  }
+}
+
+register M_DEVICE {
+#  ToDo
+  field fmrev {
+    bits 4;
+    access ro;
+    reset 'b0;
+  }
+  field mmrev {
+    bits 4;
+    access ro;
+    reset 'b0;
+  }
+  field deviceid {
+    bits 8;
+    access ro;
+    reset 'b0;
+  }
+}
+
+register M_MEMORY1 {
+#  ToDo
+  field memory1 {
+    bits 16;
+    access rw;
+    reset 'b0;
+  }
+}
+
+register M_MEMORY0 {
+#  ToDo
+  field memory0 {
+    bits 16;
+    access rw;
+    reset 'b0;
+  }
+}
+
+register M_LVB1_SVS {
+#  ToDo
+  field reserved23 {
+    bits 11;
+    access rw;
+    reset 'b0;
+  }
+  field lvb1_svs {
+    bits 5;
+    access ro;
+    reset 'b0;
+  }
+}
+
+register M_VMON_REGX {
+#  ToDo
+  field vmon4_reg {
+    bits 4;
+    access rw;
+    reset 'b0;
+  }
+  field vmon3_reg {
+    bits 4;
+    access rw;
+    reset 'b0;
+  }
+  field vmon2_reg {
+    bits 4;
+    access rw;
+    reset 'b0;
+  }
+  field vmon1_reg {
+    bits 4;
+    access rw;
+    reset 'b0;
+  }
+}
+
+register M_FLAG2 {
+#  ToDo
+  field vpre_fb_ov {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vsupuv7 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field boost_st {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field buck1_st {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field buck2_st {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field buck3_st {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field ldo1_st {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field ldo2_st {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field vpreuvl {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vpreuvh {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vsupuvl {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vsupuvh {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field wk2rt {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field wk1rt {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field wk2flg {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field wk1flg {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+}
+
+register M_FLAG1 {
+#  ToDo
+  field vbosuvh {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vboostuvh {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vpreoc {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field buck1oc {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field buck2oc {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field buck3oc {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field ldo1oc {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field ldo2oc {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field clk_fin_div_ok {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field vboostov {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vboostot {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field buck1ot {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field buck2ot {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field buck3ot {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field ldo1ot {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field ldo2ot {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+}
+
+register M_INT_MASK2 {
+#  ToDo
+  field reserved24 {
+    bits 4;
+    access rw;
+    reset 'b0;
+  }
+  field vboostov_m {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vbosuvh_m {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field com_m {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vpre_fb_ov_m {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vboost_uvh_m {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vsupuv7 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field reserved25 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vpreuvh {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vsupuv {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vsupuvh {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field wake1_m {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field wake2_m {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+}
+
+register M_INT_MASK1 {
+#  ToDo
+  field reserved26 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vpreoc_m {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field reserved27 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field buck1oc_m {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field buck2oc_m {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field buck3oc_m {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field ldo1oc_m {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field ldo2oc_m {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field reserved28 {
+    bits 2;
+    access rw;
+    reset 'b0;
+  }
+  field boosttsd_m {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field buck1tsd_m {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field buck2tsd_m {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field buck3tsd_m {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field ldo1tsd_m {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field ldo2tsd_m {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+}
+
+register M_CLOCK {
+#  ToDo
+  field mod_cfg {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field fout_mux_sel {
+    bits 4;
+    access rw;
+    reset 'b0;
+  }
+  field fout_phase {
+    bits 3;
+    access rw;
+    reset 'b0;
+  }
+  field fout_clk_sel {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field ext_fin_sel {
+    bits 1;
+    access wo;
+    reset 'b0;
+  }
+  field fin_div {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field mod_en {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field clk_tune {
+    bits 4;
+    access rw;
+    reset 'b0;
+  }
+}
+
+register M_AMUX {
+#  ToDo
+  field reserved29 {
+    bits 10;
+    access rw;
+    reset 'b0;
+  }
+  field ratio {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field amux {
+    bits 5;
+    access rw;
+    reset 'b0;
+  }
+}
+
+register M_REG_CTRL2 {
+#  ToDo
+  field vbstsr {
+    bits 2;
+    access rw;
+    reset 'b0;
+  }
+  field boosttsdcfg {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field buck1tsdcfg {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field buck2tsdcfg {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field buck3tsdcfg {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field ldo1tsdcfg {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field ldo2tsdcfg {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field reserved30 {
+    bits 3;
+    access rw;
+    reset 'b0;
+  }
+  field vpresrls {
+    bits 2;
+    access rw;
+    reset 'h3;
+  }
+  field reserved31 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vpresrhs {
+    bits 2;
+    access rw;
+    reset 'b0;
+  }
+}
+
+register M_REG_CTRL1 {
+#  ToDo
+  field vref_pd_dis {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vpdis {
+    bits 1;
+    access wo;
+    reset 'b0;
+  }
+  field boostdis {
+    bits 1;
+    access wo;
+    reset 'b0;
+  }
+  field buck1dis {
+    bits 1;
+    access wo;
+    reset 'b0;
+  }
+  field buck2dis {
+    bits 1;
+    access wo;
+    reset 'b0;
+  }
+  field buck3dis {
+    bits 1;
+    access wo;
+    reset 'b0;
+  }
+  field ldo1dis {
+    bits 1;
+    access wo;
+    reset 'b0;
+  }
+  field ldo2dis {
+    bits 1;
+    access wo;
+    reset 'b0;
+  }
+  field reserved32 {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field vpen {
+    bits 1;
+    access wo;
+    reset 'b0;
+  }
+  field boosten {
+    bits 1;
+    access wo;
+    reset 'b0;
+  }
+  field buck1en {
+    bits 1;
+    access wo;
+    reset 'b0;
+  }
+  field buck2en {
+    bits 1;
+    access wo;
+    reset 'b0;
+  }
+  field buck3en {
+    bits 1;
+    access wo;
+    reset 'b0;
+  }
+  field ldo1en {
+    bits 1;
+    access wo;
+    reset 'b0;
+  }
+  field ldo2en {
+    bits 1;
+    access wo;
+    reset 'b0;
+  }
+}
+
+register M_MODE {
+#  ToDo
+  field reserved33 {
+    bits 7;
+    access rw;
+    reset 'b0;
+  }
+  field pll_lock_rt {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field ext_fin_sel_rt {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field ext_fin_dis {
+    bits 1;
+    access wo;
+    reset 'b0;
+  }
+  field main_normal {
+    bits 1;
+    access ro;
+    reset 'b1;
+  }
+  field reserved34 {
+    bits 2;
+    access rw;
+    reset 'b0;
+  }
+  field w2dis {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field w1dis {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field goto_stby {
+    bits 1;
+    access wo;
+    reset 'b0;
+  }
+}
+
+register M_FLAG {
+#  ToDo
+  field com_err {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field wu_g {
+    bits 1;
+    access ro;
+    reset 'b1;
+  }
+  field vpre_g {
+    bits 1;
+    access ro;
+    reset 'b1;
+  }
+  field vpoost_g {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field vbuck1_g {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field vbuck2_g {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field vbuck3_g {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field vldo1_g {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field vldo2_g {
+    bits 1;
+    access ro;
+    reset 'b0;
+  }
+  field reserved35 {
+    bits 2;
+    access rw;
+    reset 'b0;
+  }
+  field spi_m_clk {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field spi_m_req {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field spi_m_crc {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field i2c_m_crc {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+  field i2c_m_req {
+    bits 1;
+    access rw;
+    reset 'b0;
+  }
+}
+
+block system_reg_regmodel {
+  bytes 2.0;
+  register FS_STATES     (fs_states)     @'h56;
+  register FS_INTB_MASK  (fs_intb_mask)  @'h55;
+  register FS_DIAG_SAFETY (fs_diag_safety) @'h54;
+  register FS_SAFE_IOS   (fs_safe_ios)   @'h53;
+  register FS_RELEASE_FS0B (fs_release_fs0b) @'h52;
+  register FS_OVUVREG_STATUS (fs_ovuvreg_status) @'h51;
+  register FS_WD_ANSWER  (fs_wd_answer)  @'h50;
+  register FS_WD_SEED    (fs_wd_seed)    @'h4F;
+  register FS_WD_WINDOW  (fs_wd_window)  @'h4D;
+  register FS_I_SVS      (fs_i_svs)      @'h4B;
+  register FS_I_FSSM     (fs_i_fssm)     @'h49;
+  register FS_I_SAFE_INPUTS (fs_i_safe_inputs) @'h47;
+  register FS_I_WD_CFG   (fs_i_wd_cfg)   @'h45;
+  register FS_I_OVUV_SAFE_REACTION2 (fs_i_ovuv_safe_reaction2) @'h43;
+  register FS_I_OVUV_SAFE_REACTION1 (fs_i_ovuv_safe_reaction1) @'h41;
+  register FS_GRL_FLAGS_REGISTER (fs_grl_flags_register) @'h40;
+  register M_DEVICE      (m_device)      @'h25;
+  register M_MEMORY1     (m_memory1)     @'h24;
+  register M_MEMORY0     (m_memory0)     @'h23;
+  register M_LVB1_SVS    (m_lvb1_svs)    @'hB;
+  register M_VMON_REGX   (m_vmon_regx)   @'hA;
+  register M_FLAG2       (m_flag2)       @'h8;
+  register M_FLAG1       (m_flag1)       @'h8;
+  register M_INT_MASK2   (m_int_mask2)   @'h7;
+  register M_INT_MASK1   (m_int_mask1)   @'h6;
+  register M_CLOCK       (m_clock)       @'h5;
+  register M_AMUX        (m_amux)        @'h4;
+  register M_REG_CTRL2   (m_reg_ctrl2)   @'h3;
+  register M_REG_CTRL1   (m_reg_ctrl1)   @'h2;
+  register M_MODE        (m_mode)        @'h1;
+  register M_FLAG        (m_flag)        @'h0;
+}
+

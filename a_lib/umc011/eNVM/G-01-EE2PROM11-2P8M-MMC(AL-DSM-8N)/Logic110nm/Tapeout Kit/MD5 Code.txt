@@ -1,0 +1,16 @@
+ProjectID   - UMA11LSCEP15BDRLLN_A
+Phase       - 01
+UIP files   - 
+UMA11LSCEP15BDRLLN_A01_TAPEOUTKIT.tar.gz
+(checksum: 4b270e23459738fbca33dede2bc1df09, filesize: 294136466 bytes)
+
+
+
+
+
+
+
+
+
+
+

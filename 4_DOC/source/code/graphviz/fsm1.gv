@@ -1,0 +1,93 @@
+    digraph finite_state_machine {
+       node [shape = circle]
+        
+    	subgraph cluster_a {
+           A00;A01;A02;A10;A11;A12;A13;A14;A15;A16;A17;A21;
+    	}
+    	subgraph cluster_b {
+    		C00;C01;C02;C10;C11;C12;C13;C14;C15;C16;
+    		C17;C18;C19;C110;C111;C112;C20;C21;C22;
+    	}
+    	
+    
+    	A00 [label = "VPRE OFF"];
+    	A01 [label = "VBOOST OFF"];
+    	A02 [label = "VREGx\nPWR_DOWN"];
+    	A10 [label = "From any\nM_state"];
+    	A11 [label = "Power Down";shape = box];
+    	A12 [label = "STANDBY"];
+    	A13 [label = "WAIT FS\nSUPPLY"];
+    	A14 [label = "VPRE ON"];
+    	A15 [label = "VBOOST\nON"];
+    	A16 [label = "VREGx\nPER_UP"];
+    	A17 [label = "NORMAL_M"];
+        A20 [label = "DEEP-FS"];
+    	A21 [label = "STANDBY\nDEEP-FS"];
+    
+    
+       C00  [label = "From any\nFS_state after\n'INIT_FS'"];
+       C01  [label = "ASSERT\nPGOOD"];
+       C02  [label = "From any FS_state\nafter 'ABIST1'\ninclude 'RSTB'"];
+       C10  [label = "From any\nM_state"];
+       C11  [label = "Power Down"];
+       C12  [label = "STANDBY\nFS"];
+       C13  [label = "LBIST"];
+       C14  [label = "FS\nREADY"];
+       C15  [label = "WAIT\nABIST1"];
+       C16  [label = "ABIST1"];
+       C17  [label = "RELEASE\nRESET"];
+       C18  [label = "INIT_FS"];
+       C19  [label = "WAIT\nABIST2"];
+       C110 [label = "ABIST2"];
+       C111 [label = "ASSERT\nFS0B"];
+       C112 [label = "NORMAL_\nFS"];
+       
+       C20  [label = "From any\nFS_state after\n'WAIT_ABIST1'"];
+       C21  [label = "ASSERT\nRSTB"];
+       C22  [label = "From anyFS_state\nafter 'ABIST1'\nexclude 'PGOOD'"];
+       
+       A17 -> A02;
+       A17 -> A12;
+       A02 -> A01;
+       A01 -> A00;
+       A00 -> A12;
+       
+       A10 -> A20;
+       A21 -> A11;
+       
+       A10 -> A11;
+       A11 -> A12;
+       A12 -> A13;
+       A13 -> A14;
+       A14 -> A15;
+       A15 -> A16;
+       A16 -> A17;
+       
+       
+       C10  -> A20;
+       C00  -> C18;
+       C02  -> C01;
+       C01  -> C15;
+       
+       
+       C10  -> C11;
+       C11  -> C12;
+       C12  -> C13; 
+       C13  -> C14;
+       C14  -> C15 ;
+       C15  -> C16 ;
+       C16  -> C17 ;
+       C17  -> C18 ;
+       C18  -> C19 ;
+       C19  -> C110;
+       C110 -> C111;
+       C111 -> C112;
+       C112 -> C111;
+       
+       C20  -> C12;
+       C21  -> C17;
+       C22  -> C21;
+    
+    
+    }
+

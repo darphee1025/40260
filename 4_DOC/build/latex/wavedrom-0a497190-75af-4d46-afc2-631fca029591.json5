@@ -1,0 +1,6 @@
+{ "reg" : [
+   {bits: 8,   name: 'crc8',             attr: '',},
+   {bits: 16,  name: 'fdevice status/content/lags',     attr: ''},
+   {bits: 8,   name: 'general device status',    attr: ''},
+   ]
+ }

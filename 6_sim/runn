@@ -1,0 +1,159 @@
+#!/usr/bin/csh
+
+if ("$1" == "")then
+cat <<EOF
+Usage:
+ $0 [-vcs [-clear | -post | -min | -n205] <pattern...>]
+
+    Compiles and RUNs simulation
+
+    -vcs     Run simulation with VCS, default is ncverilog
+    -clear   Delete all the simulatin temporary files
+    -vcd     dump vcd 
+
+ Example:
+    $0 
+EOF
+exit
+
+else 
+    set VAR_PATTERN         = ""
+    set VAR_CLAER           = ""
+    set VAR_VCD             = ""
+    set VAR_VCS             = ""
+    set VAR_ALL             = ""
+    
+    foreach i ($*)
+        if( "$i" == "-vcs")then
+            set VAR_VCS  = "1"
+        else if( "$i" == "-vcd")then
+            set VAR_VCD  = "1"
+        else if( "$i" == "all")then
+            set VAR_ALL  = "1"
+        else if( -d ../6_sim/pattern/$i)then
+            set VAR_PATTERN = ($VAR_PATTERN $i)
+        else 
+            echo "###################################################"
+            echo "####Incorrect option/pattern :$i "
+            echo "###################################################"
+            exit
+        endif
+    end
+endif
+
+    set CURRENT_DIR = `pwd`
+
+    if (-e result.log)then
+       \rm -rf result.log
+    endif
+
+    set starttime   = `date "+%Y-%m-%d %H:%M:%S"`
+
+    #if( "$VAR_ALL" == "1" )then
+    #    chdir ./pattern
+    #    if(-e ./pattern.list)then
+    #        \rm -rf ./pattern.list
+    #    endif
+    #    \ls -d * |tee ./pattern.list
+    #    chdir ../
+    #    echo "generate pattern list ok"
+    #endif
+     
+
+   #Generate pattern list
+    if("$VAR_ALL" == "1")then
+        set PatternList = `cat ../6_sim/pattern/pattern.list | sed '/^\s*\//d'`
+    else 
+        set PatternList = ( $VAR_PATTERN )
+    endif
+
+    #scan the pattern
+    foreach pattern ( $PatternList )
+        echo "----------------------------------------------------------" > result.log
+        set patternname = `echo "$pattern" | sed 's/\//_/g'`
+        if !(-e ../6_sim/pattern/${pattern})then
+            echo "Pattern directory: ../6_sim/pattern/${pattern} is not exit" | tee -a result.log
+        else if !(-e ../6_sim/pattern/${pattern}/ptn.v)then
+            echo "Pattern directory: ../6_sim/pattern/${pattern}/ptn.v is not exit" | tee -a result.log
+        else 
+
+            if (-e define.v)then
+                \rm -rf define.v                  
+            endif
+            if (-e ptn.v)then
+                \rm -rf ptn.v
+            endif
+            if (-e pattern.v)then
+                \rm -rf pattern.v
+            endif
+            if (-e ../9_filelist/rtl.lst)then
+                \rm -rf ../9_filelist/rtl.lst
+            endif
+  
+            if !(-d ../8_hdl)then
+                echo "HDL Source file : ../8_hdl is not exit" | tee -a result.log
+                exit
+            else
+                \find ${CURRENT_DIR}/../8_hdl/ -name "*.sv" >> ../9_filelist/rtl.lst
+            endif
+
+            if("$VAR_VCD" == "1")then
+                echo \`define VCD_DUMP >> define.v
+            else
+                echo \`undef VCD_DUMP >> define.v
+            endif
+
+            if (-e ../8_hdl/define.v)then
+                #echo "hdl top define is exit , so dont generate !"
+            else
+                cat ../8_hdl/adc/define.v                                   >> ../8_hdl/define.v
+                cat ../8_hdl/system/define.v                                >> ../8_hdl/define.v
+                cat ../8_hdl/top/define.v                                   >> ../8_hdl/define.v
+            endif
+
+            cat ../6_sim/pattern/$pattern/ptn.v   | sed -n '/^\s*`undef/p'  >> define.v
+            cat ../6_sim/pattern/$pattern/ptn.v   | sed -n '/^\s*`define/p' >> define.v
+            cat ../6_sim/pattern/$pattern/ptn.v   | sed    '/`define/d'     >  ptn.v
+            cat ../8_hdl/define.v                                           >> define.v
+
+            ln -s ../6_sim/pattern/${pattern}/ptn.v pattern.v
+
+            set begintime = `date "+%Y-%m-%d %H:%M:%S"`
+            echo "Pattern: ${pattern} Begin time : $begintime" >> result.log
+    
+            echo "******************************************************************"
+            echo "****** RUNNING Pattern: $pattern                                  "
+            echo "******************************************************************"
+    
+            set endtime = `date "+%Y-%m-%d %H:%M:%S"`
+            echo "Pattern: ${pattern} End time : $endtime" >> result.log
+    
+    
+            if (`grep "Failed" vcs.log` != "")then 
+               echo "Pattern : ${pattern} Status : ******************* " >> result.log
+               echo "Pattern : ${pattern} Status : *Simulation FAILED  " >> result.log
+               echo "Pattern : ${pattern} Status : ******************* " >> result.log
+            else 
+               echo "Pattern : ${pattern} Status : ^_^     PASS    ^_^ " >> result.log
+            endif
+
+
+            if(-e verilog.fsdb)      \cp verilog.fsdb ../6_sim/fsdb/verilog_${pattern}.fsdb
+            if(-e vcs.log)           \cp verilog.fsdb ../6_sim/log/vcs_$pattern.log
+            if(-e ncverilog.log)     \cp verilog.fsdb ../6_sim/log/ncverilog_${pattern}_vcs.log
+
+        endif
+    end
+
+set finishtime = `date "+%Y-%m-%d %H:%M:%S"`
+echo "Simulaton start  at : ${starttime}"    | tee -a result.log
+echo "Simulaton finish at : ${finishtime}"   | tee -a result.log
+echo "----------------------------------------------------------" >> result.log
+endif
+
+if ( -e result.log ) then 
+    \cat result.log 
+    \cat result.log >> vcs.log
+endif
+
+if(-e result.log)    \cp verilog.fsdb ../6_sim/log/result_${pattern}_vcs.log

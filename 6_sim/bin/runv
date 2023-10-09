@@ -1,0 +1,15 @@
+#!/bin/csh
+
+if ( "$1" == "") then
+    novas -f sim.f -ssv verilog.fsdb -nologo &
+else
+    if (-e ../7_sim/pattern/$1/verilog.fsdb)then
+        if(-e ../7_sim/pattern/$1/$1.rc)then
+            verdi -f sim.f -ssv ../7_sim/pattern/$1/verilog.fsdb -sswr ../7_sim/pattern/$1/$1.rc -nologo &
+        else 
+            verdi -f sim.f -ssv ../7_sim/pattern/$1/verilog.fsdb -nologo &
+    else
+        echo "Pattern : $1 not exit , please check"
+    endif
+
+endif

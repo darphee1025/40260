@@ -1,0 +1,32 @@
+    digraph one{
+        #size = "4,4";
+        From_any_M_state [label ="From any\nM_state"];
+        STANDBY_DEEP_FS [label = "STANDBY\nDEEP-FS"];
+        Power_Down [label = "Power Down";shape = box];
+        From_any_M_state -> Power_Down[weight=8,label = "PORB_MAIN=0 or VBOS<VBOS_por"];
+        DEEP_FS[label = "DEEP-FS"];
+        From_any_M_state -> DEEP_FS[label = "VPRE_FB_OV or (VPREGx_TSD and OTP_CONF_TSD)"];
+        From_any_M_state -> STANDBY_DEEP_FS[label = "WAKE1=WAKE2=0"];
+        DEEP_FS          -> STANDBY_DEEP_FS;
+        Power_Down       -> STANDBY;
+        WAIT_FS_SUPPLY[label = "WAIT FS\n & \nSUPPLY"];
+        STANDBY          -> WAIT_FS_SUPPLY;
+        VPRE_ON[label = "VPRE ON"];
+        WAIT_FS_SUPPLY   -> VPRE_ON;
+        VBOOST_ON[label = "VBOOST\nON"];
+        VPRE_ON          -> VBOOST_ON[comment="I am node A"];
+        DEEP_FS          -> VPRE_ON;
+        VREGx_PWR_UP[label = "VREGx\nPWR_UP"];
+        VBOOST_ON        -> VREGx_PWR_UP;
+        VREGx_PWR_UP     -> NORMAL_M;
+        
+        VREGx_PWR_DOWN[label = "VREGx\nPWR_\nDOWN"];
+        NORMAL_M         -> VREGx_PWR_DOWN;
+        VBOOST_OFF[label = "VBOOST\nOFF"];
+        VREGx_PWR_DOWN   -> VBOOST_OFF;
+        VPRE_OFF[label = "VPRE\nOFF"];
+        VBOOST_OFF       -> VPRE_OFF;
+        VPRE_OFF         -> STANDBY;
+        NORMAL_M         -> STANDBY;
+        
+    }

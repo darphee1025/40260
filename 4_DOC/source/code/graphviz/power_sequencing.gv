@@ -1,0 +1,20 @@
+     digraph Power_sequencing {
+    	A00 [label = "From\nVBOOST ON"];
+    	A01 [label = "SLOT_0"];
+    	A02 [label = "SLOT_1"];
+    	A03 [label = "SLOT_2"];
+    	A04 [label = "SLOT_3"];
+    	A05 [label = "SLOT_4"];
+    	A06 [label = "SLOT_5"];
+    	A07 [label = "SLOT_6"];
+    	A08 [label = "To\nNORMAL_M"];
+    
+        A00 -> A01[label = "VBOOST>VBOOST_uvh \n and VBOOST_soft_start complete"];
+        A01 -> A02[label = "tslot"];
+        A02 -> A03[label = "tslot"];
+        A03 -> A04[label = "tslot"];
+        A04 -> A05[label = "tslot"];
+        A05 -> A06[label = "tslot"];
+        A06 -> A07[label = "tslot"];
+        A07 -> A08[label = "tslot"];
+     }

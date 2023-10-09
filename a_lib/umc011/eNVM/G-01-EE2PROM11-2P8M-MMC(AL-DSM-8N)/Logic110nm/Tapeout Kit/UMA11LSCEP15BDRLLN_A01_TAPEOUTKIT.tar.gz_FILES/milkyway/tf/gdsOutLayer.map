@@ -1,0 +1,12 @@
+;Astro Layer Number to UMC Layer Number          
+T        46              101         0      ;
+T        48              102         0      ;
+T        50              103         0      ;
+T        52              104         0      ;
+T        54              105         0      ;
+T        56              106         0      ;
+T	 58		 107	     0	    ;
+T	 60		 108	     0      ;
+T        63               63         63      ; 
+A 15:0 15 0 ; VTPH
+A 16:0 16 0 ; VTNH

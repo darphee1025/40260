@@ -1,0 +1,42 @@
+{ signal: [
+  {                            node: '...a....................', phase:1},
+  { name: 'VSUP1/2          ', wave: '0..1....................', phase:1, data:''},
+  {                            node: '....b...................', phase:1},
+  { name: 'WAKE1/2          ', wave: '0...1...................', phase:1, data:''},
+  {                            node: '......c.................', phase:1},
+  { name: 'VBOS             ', wave: '0....1..................', phase:1, data:''},
+  {                            node: '....d.....e.............', phase:1},
+  { name: 'VPRE             ', wave: '0.....1.................', phase:1, data:''},
+  {                            node: '........................', phase:1},
+  { name: 'VPRE-BOOST_diode ', wave: '0.....z1................', phase:1, data:''},
+  {                            node: '........................', phase:1},
+  { name: 'VBOOST           ', wave: '0.........1.............', phase:1, data:''},
+  {                            node: '........................', phase:1},
+  { name: 'SLOT_0           ', wave: '0...........1...........', phase:1, data:''},
+  {                            node: '........................', phase:1},
+  { name: 'SLOT_1           ', wave: '0.............1.........', phase:1, data:''},
+  {                            node: '........................', phase:1},
+  { name: 'SLOT_2           ', wave: '0................1......', phase:1, data:''},
+  {                            node: '........................', phase:1},
+  { name: 'SLOT_6           ', wave: '0...................1...', phase:1, data:''},
+  {                            node: '........................', phase:1},
+  { name: 'PGOOD            ', wave: '0...................1...', phase:1, data:''},
+  {                            node: '........................', phase:1},
+  { name: 'RSTB             ', wave: '0...................1...', phase:1, data:''},
+  {                            node: '........................', phase:1},
+  ],
+ 
+  foot:{
+   text:'Figure 7 Power up sequence example',
+   tock:0
+ },
+
+  edge: [
+  
+  'a VUP>VSUP_uvh',
+  'b WAKW12(VIH)',
+  'b-|d ',
+  'c VBOS_uvh',
+  'e VPRE_uvh and VPRE_soft_start complete',
+  ]
+}
