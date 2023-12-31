@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # coding: utf-8
 
 import xlrd
@@ -6,6 +6,8 @@ import re
 import os
 import sys
 import math
+
+
 
 # ==========================================================
 #  func process excel                              start#{{{
@@ -64,6 +66,8 @@ def wr_block(p_reg,p_fld,p_rst,p_bit):
     wr_str.append("    end\n")
     wr_str.append("end\n")
     return wr_str
+
+
 
 #def wrc_block
 def wrc_block(p_reg,p_fld,p_rst,p_bit):
@@ -160,6 +164,8 @@ def rd_block(p_reg,p_address):
     return rd_str
 
 
+
+
 # ==========================================================
 #  int_logic                                       start#{{{
 # ==========================================================
@@ -205,7 +211,7 @@ def gen_reg_hdl(p_sheet,ModuleName):
     fo.write("\n"+16*" "+",pwdata")
     fo.write("\n"+16*" "+",prdata")
     #insert other port
-    as_is_list = ['RW','WRC','WRS','WO','W1','WO1']
+    as_is_list = ['RW','WRC','WRS','WO','W1','WO1','R/W']
     
     w1c_list =['W1C','W1CRS']
     w0c_list =['W0C','W0CRS']
@@ -628,6 +634,129 @@ def gen_reg_ralf(p_sheet,ModuleName):
     fo.close()
     print("Successfully generated %s.ralf"%(ModuleName))
  
+
+def bit_block(p_bit,p_access,p_fld):
+    wr_str=[]
+    wr_str.append(" +--------+vim ----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+\n")
+    wr_str.append(" | Bit    | 31 | 30 | 29 | 28 | 27 | 26 | 25 | 24 | 23 | 22 | 21 | 20 | 19 | 18 | 17 | 16 |\n") 
+    wr_str.append(" +--------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+\n")
+
+    if(p_access=="reserved"):
+        wr_str.append(" | Access | %-3s|\n"%(p_fld))
+    elif(bit2width(p_bit)==1):
+        wr_str.append(" | Access | %-3s|\n"%(p_access))
+    elif(bit2width(p_bit)==24):
+        wr_str.append(" | Access | %-78s|\n"%(p_access))
+    else:
+        wr_str.append(" | Access | %-3s|\n"%(p_access))
+
+    wr_str.append(" +--------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+\n")
+    wr_str.append(" | Bit    | 15 | 14 | 13 | 12 | 11 | 10 | 9  | 8  | 7  | 6  | 5  | 4  | 3  | 2  | 1  | 0  |\n") 
+    wr_str.append(" +--------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+\n")
+    if(bit2width(p_bit)==1):
+        wr_str.append(" | Access | %-3s|\n"%(p_access))
+    elif(bit2width(p_bit)==24):
+        wr_str.append(" | Access | %-78s|\n"%(p_access))
+    else:
+        wr_str.append(" | Access | %-3s|\n"%(p_access))
+    wr_str.append(" +--------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+\n")
+    return wr_str
+
+def gen_reg_table(p_sheet,ModuleName):
+    note_col    = getValueCol(p_sheet,'Description')
+    base_col    = getValueCol(p_sheet,'BaseAddress')
+    base_value  = p_sheet.cell(1,base_col).value
+    width_col   = getValueCol(p_sheet,'Width')
+    width_value = int(p_sheet.cell(1,width_col).value)
+    reg_col     = getValueCol(p_sheet,'RegName')
+    fld_col     = getValueCol(p_sheet,'FieldName')
+    rst_col     = getValueCol(p_sheet,'ResetValue')
+    bit_col     = getValueCol(p_sheet,'Bits')
+    access_col  = getValueCol(p_sheet,'Access')
+    adr_col     = getValueCol(p_sheet,'OffsetAddress')
+
+    fo=open("%s_register.rst"%(ModuleName),"w")
+    fo.write("%s_register\n"%(ModuleName))
+    fo.write("=================================\n\n")
+
+    for row in range (p_sheet.nrows)[1:]:
+        fld_name  = p_sheet.cell(row,fld_col).value.lower()
+        fld_type  = nullUp2Valid(p_sheet,row,access_col)
+        bit       = p_sheet.cell(row,bit_col).value
+        reg_name  = nullUp2Valid(p_sheet,row,reg_col)
+        note      = p_sheet.cell(row,note_col).value.lower()
+        address   = nullUp2Valid(p_sheet,row,adr_col).replace('0x','8\'h').replace('0X','8\'h')
+        rst_value = p_sheet.cell(row,rst_col).value
+        rst_value = re.search('[bodh][a-f0-9]+$',rst_value).group()
+        if(p_sheet.cell(row,reg_col).value!=''):
+            fo.write("%s\n"%(reg_name))
+            fo.write("#################\n")
+            fo.write(".. role:: raw-role(raw)\n")
+            fo.write("   :format: latex\n")
+            fo.write("\n")
+            fo.write(".. _table_%s:\n"%(reg_name))
+            fo.write(".. table:: %s\n"%(reg_name))
+            fo.write("\n")
+            fo.write(" +------------------+-------------------+-------------------+-----------------------------+\n")
+            fo.write(" | Address          | offset addr       | Default Value     |  Name                       |\n") 
+            fo.write(" +------------------+-------------------+-------------------+-----------------------------+\n")
+            fo.write(" | %-17s| %-17s | %-18s| %-28s|\n"%(address,address,rst_value,reg_name)) 
+            fo.write(" +==================+===================+===================+=============================+\n")
+            fo.write(" | for reset control                                                                      |\n")
+            fo.write("".join(bit_block(bit,fld_type,fld_name)))
+             
+            #fo.write(" +--------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+\n")
+            #fo.write(" | Bit    | 31 | 30 | 29 | 28 | 27 | 26 | 25 | 24 | 23 | 22 | 21 | 20 | 19 | 18 | 17 | 16 |\n") 
+            #fo.write(" +--------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+\n")
+            fo.write(" | Access | RSV|%-5s%-5s%-5s%-5s%-5s%-5s%-5s%-5s%-5s%-5s%-5s%-5s%-5s%-5s%-5s|\n"%("","","","","","","","","","","","","","",""))
+            #fo.write(" +--------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+\n")
+            #fo.write(" | Bit    | 15 | 14 | 13 | 12 | 11 | 10 | 9  | 8  | 7  | 6  | 5  | 4  | 3  | 2  | 1  | 0  |\n") 
+            #fo.write(" +--------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+\n")
+            #fo.write(" | Access | RSV                                        | R/W| RO | W1C| R/W               |\n")
+            #fo.write(" +--------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+\n")
+
+        
+            fo.write(" | Bit    | Fld Name| Reset   | Description                                               |\n")
+            fo.write(" +--------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+\n")
+            fo.write(" | %-7s| %-6s| %-8s| %-58s+\n"%(bit,fld_name,rst_value,note))
+            fo.write(" +--------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+\n")
+            fo.write("\n")
+
+            #o.write(" | 30     + bit31   |         | 11111111111111111111                                      +\n")
+            #o.write(" +--------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+\n")
+            #o.write(" | 29     + bit31   |         | 11111111111111111111                                      +\n")
+            #o.write(" +--------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+\n")
+            #o.write(" | 28     + bit31   |         | 11111111111111111111                                      +\n")
+            #o.write(" +--------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+\n")
+            #o.write(" | 27     + bit31   |         | 11111111111111111111                                      +\n")
+            #o.write(" +--------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+\n")
+            #o.write(" | 26     + bit31   |         | | 111111111111111111                                      +\n")
+            #o.write(" |        +         |         | | 2'b00 - enable                                          |\n")
+            #o.write(" |        +         |         | | 2'b01 - disable                                         |\n") 
+            #fo.write(" +--------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+\n\n")
+
+
+
+
+
+
+
+
+
+        fo.write("")
+        fo.write("")
+        fo.write("")
+        fo.write("")
+  
+    fo.write("\n")
+    fo.close()
+    print("Successfully generated %s_register.rst"%(ModuleName))
+
+
+
+
+
+ 
 #max_rows=sheet0.nrows#行数
 #max_cols=sheet0.ncols#列数
 if(len(sys.argv) < 2):
@@ -651,7 +780,8 @@ for index in range (sheets_num):
     ModuleName = sheet0.name
     #ModuleName  = re.search('^[a-z]+',sys.argv[1]).group()#从开头位置开始匹配返回第一个，而findall返回一个list
     gen_reg_hdl(sheet0,ModuleName)
-    gen_reg_cheader(sheet0,ModuleName)
-    gen_reg_ralf(sheet0,ModuleName)
+    #gen_reg_cheader(sheet0,ModuleName)
+    #gen_reg_ralf(sheet0,ModuleName)
+    #gen_reg_table(sheet0,ModuleName)
 sys.exit(0)
 

@@ -22,3 +22,6 @@ all : clean apb cfg h ralf task
 table :
 	rm -rf *.rst
 	python3 gen_reg_table.py template.xlsx
+
+empty:
+	python3 gen_verilog_empty_jwq40260.py

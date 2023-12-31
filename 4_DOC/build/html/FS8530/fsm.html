@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simplified functional state diagram &mdash; jwq40260 0.0 文档</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sphinx_console.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/register-graphic.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script src="https://wavedrom.com/skins/default.js"></script>
+        <script src="https://wavedrom.com/wavedrom.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="Register1" href="../register.html" />
+    <link rel="prev" title="Welcome to jwq40260’s documentation!" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            jwq40260
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Simplified functional state diagram</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#graphviz">graphviz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#graphviz1">graphviz1</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#power-sequencing">Power sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#debug-mode-entry">Debug mode entry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#image">image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#excel">excel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../register.html">Register1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../device.html">Device</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../otp.html">NVM-OTP</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">jwq40260</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Simplified functional state diagram</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/FS8530/fsm.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="simplified-functional-state-diagram">
+<h1>Simplified functional state diagram<a class="headerlink" href="#simplified-functional-state-diagram" title="此标题的永久链接"></a></h1>
+<section id="graphviz">
+<h2>graphviz<a class="headerlink" href="#graphviz" title="此标题的永久链接"></a></h2>
+<div class="graphviz"><object data="../_images/graphviz-366cd39621a43513501d265359966478f55bddf2.svg" type="image/svg+xml" class="graphviz">
+<p class="warning">digraph one{
+        #size = &quot;4,4&quot;;
+        From_any_M_state [label =&quot;From any\nM_state&quot;];
+        STANDBY_DEEP_FS [label = &quot;STANDBY\nDEEP-FS&quot;];
+        Power_Down [label = &quot;Power Down&quot;;shape = box];
+        From_any_M_state -&gt; Power_Down[weight=8,label = &quot;PORB_MAIN=0 or VBOS&lt;VBOS_por&quot;];
+        DEEP_FS[label = &quot;DEEP-FS&quot;];
+        From_any_M_state -&gt; DEEP_FS[label = &quot;VPRE_FB_OV or (VPREGx_TSD and OTP_CONF_TSD)&quot;];
+        From_any_M_state -&gt; STANDBY_DEEP_FS[label = &quot;WAKE1=WAKE2=0&quot;];
+        DEEP_FS          -&gt; STANDBY_DEEP_FS;
+        Power_Down       -&gt; STANDBY;
+        WAIT_FS_SUPPLY[label = &quot;WAIT FS\n &amp; \nSUPPLY&quot;];
+        STANDBY          -&gt; WAIT_FS_SUPPLY;
+        VPRE_ON[label = &quot;VPRE ON&quot;];
+        WAIT_FS_SUPPLY   -&gt; VPRE_ON;
+        VBOOST_ON[label = &quot;VBOOST\nON&quot;];
+        VPRE_ON          -&gt; VBOOST_ON[comment=&quot;I am node A&quot;];
+        DEEP_FS          -&gt; VPRE_ON;
+        VREGx_PWR_UP[label = &quot;VREGx\nPWR_UP&quot;];
+        VBOOST_ON        -&gt; VREGx_PWR_UP;
+        VREGx_PWR_UP     -&gt; NORMAL_M;
+        
+        VREGx_PWR_DOWN[label = &quot;VREGx\nPWR_\nDOWN&quot;];
+        NORMAL_M         -&gt; VREGx_PWR_DOWN;
+        VBOOST_OFF[label = &quot;VBOOST\nOFF&quot;];
+        VREGx_PWR_DOWN   -&gt; VBOOST_OFF;
+        VPRE_OFF[label = &quot;VPRE\nOFF&quot;];
+        VBOOST_OFF       -&gt; VPRE_OFF;
+        VPRE_OFF         -&gt; STANDBY;
+        NORMAL_M         -&gt; STANDBY;
+        
+    }</p></object></div>
+</section>
+<section id="graphviz1">
+<h2>graphviz1<a class="headerlink" href="#graphviz1" title="此标题的永久链接"></a></h2>
+<div class="graphviz"><object data="../_images/graphviz-fb16c160084d64d75662964ad41c91662958ef49.svg" type="image/svg+xml" class="graphviz">
+<p class="warning">digraph finite_state_machine {
+       node [shape = circle]
+        
+    	subgraph cluster_a {
+           A00;A01;A02;A10;A11;A12;A13;A14;A15;A16;A17;A21;
+    	}
+    	subgraph cluster_b {
+    		C00;C01;C02;C10;C11;C12;C13;C14;C15;C16;
+    		C17;C18;C19;C110;C111;C112;C20;C21;C22;
+    	}
+    	
+    
+    	A00 [label = &quot;VPRE OFF&quot;];
+    	A01 [label = &quot;VBOOST OFF&quot;];
+    	A02 [label = &quot;VREGx\nPWR_DOWN&quot;];
+    	A10 [label = &quot;From any\nM_state&quot;];
+    	A11 [label = &quot;Power Down&quot;;shape = box];
+    	A12 [label = &quot;STANDBY&quot;];
+    	A13 [label = &quot;WAIT FS\nSUPPLY&quot;];
+    	A14 [label = &quot;VPRE ON&quot;];
+    	A15 [label = &quot;VBOOST\nON&quot;];
+    	A16 [label = &quot;VREGx\nPER_UP&quot;];
+    	A17 [label = &quot;NORMAL_M&quot;];
+        A20 [label = &quot;DEEP-FS&quot;];
+    	A21 [label = &quot;STANDBY\nDEEP-FS&quot;];
+    
+    
+       C00  [label = &quot;From any\nFS_state after\n'INIT_FS'&quot;];
+       C01  [label = &quot;ASSERT\nPGOOD&quot;];
+       C02  [label = &quot;From any FS_state\nafter 'ABIST1'\ninclude 'RSTB'&quot;];
+       C10  [label = &quot;From any\nM_state&quot;];
+       C11  [label = &quot;Power Down&quot;];
+       C12  [label = &quot;STANDBY\nFS&quot;];
+       C13  [label = &quot;LBIST&quot;];
+       C14  [label = &quot;FS\nREADY&quot;];
+       C15  [label = &quot;WAIT\nABIST1&quot;];
+       C16  [label = &quot;ABIST1&quot;];
+       C17  [label = &quot;RELEASE\nRESET&quot;];
+       C18  [label = &quot;INIT_FS&quot;];
+       C19  [label = &quot;WAIT\nABIST2&quot;];
+       C110 [label = &quot;ABIST2&quot;];
+       C111 [label = &quot;ASSERT\nFS0B&quot;];
+       C112 [label = &quot;NORMAL_\nFS&quot;];
+       
+       C20  [label = &quot;From any\nFS_state after\n'WAIT_ABIST1'&quot;];
+       C21  [label = &quot;ASSERT\nRSTB&quot;];
+       C22  [label = &quot;From anyFS_state\nafter 'ABIST1'\nexclude 'PGOOD'&quot;];
+       
+       A17 -&gt; A02;
+       A17 -&gt; A12;
+       A02 -&gt; A01;
+       A01 -&gt; A00;
+       A00 -&gt; A12;
+       
+       A10 -&gt; A20;
+       A21 -&gt; A11;
+       
+       A10 -&gt; A11;
+       A11 -&gt; A12;
+       A12 -&gt; A13;
+       A13 -&gt; A14;
+       A14 -&gt; A15;
+       A15 -&gt; A16;
+       A16 -&gt; A17;
+       
+       
+       C10  -&gt; A20;
+       C00  -&gt; C18;
+       C02  -&gt; C01;
+       C01  -&gt; C15;
+       
+       
+       C10  -&gt; C11;
+       C11  -&gt; C12;
+       C12  -&gt; C13; 
+       C13  -&gt; C14;
+       C14  -&gt; C15 ;
+       C15  -&gt; C16 ;
+       C16  -&gt; C17 ;
+       C17  -&gt; C18 ;
+       C18  -&gt; C19 ;
+       C19  -&gt; C110;
+       C110 -&gt; C111;
+       C111 -&gt; C112;
+       C112 -&gt; C111;
+       
+       C20  -&gt; C12;
+       C21  -&gt; C17;
+       C22  -&gt; C21;
+    
+    
+    }</p></object></div>
+</section>
+</section>
+<section id="power-sequencing">
+<h1>Power sequencing<a class="headerlink" href="#power-sequencing" title="此标题的永久链接"></a></h1>
+<div class="graphviz"><object data="../_images/graphviz-e7378cde3537ed34dfc98d3738b2052717e23f2a.svg" type="image/svg+xml" class="graphviz">
+<p class="warning">digraph Power_sequencing {
+    	A00 [label = &quot;From\nVBOOST ON&quot;];
+    	A01 [label = &quot;SLOT_0&quot;];
+    	A02 [label = &quot;SLOT_1&quot;];
+    	A03 [label = &quot;SLOT_2&quot;];
+    	A04 [label = &quot;SLOT_3&quot;];
+    	A05 [label = &quot;SLOT_4&quot;];
+    	A06 [label = &quot;SLOT_5&quot;];
+    	A07 [label = &quot;SLOT_6&quot;];
+    	A08 [label = &quot;To\nNORMAL_M&quot;];
+    
+        A00 -&gt; A01[label = &quot;VBOOST&gt;VBOOST_uvh \n and VBOOST_soft_start complete&quot;];
+        A01 -&gt; A02[label = &quot;tslot&quot;];
+        A02 -&gt; A03[label = &quot;tslot&quot;];
+        A03 -&gt; A04[label = &quot;tslot&quot;];
+        A04 -&gt; A05[label = &quot;tslot&quot;];
+        A05 -&gt; A06[label = &quot;tslot&quot;];
+        A06 -&gt; A07[label = &quot;tslot&quot;];
+        A07 -&gt; A08[label = &quot;tslot&quot;];
+     }</p></object></div>
+</section>
+<section id="debug-mode-entry">
+<h1>Debug mode entry<a class="headerlink" href="#debug-mode-entry" title="此标题的永久链接"></a></h1>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{ signal: [
+  {                      node: '....A.H...B....C..D',phase:1},
+  { name: 'DBG        ', wave: '0..1......0........',phase:1},
+  {                      node: '......I............',phase:1},
+  { name: 'VSUP1/2    ', wave: '0..1...............',phase:1},
+  {                      node: '......J............',phase:1},
+  { name: 'WAKE1 or 2 ', wave: '0...1..............',phase:1},
+  {                      node: '...................',phase:1},
+  { name: 'SPI/I2C    ', wave: 'z....3...z.....3..z',phase:1,data:'SPI/I2C-OTP-pgm  SPI/I2C'},
+  {                      node: '...................',phase:1},
+  { name: 'REGx       ', wave: 'z..3......3....3..3',phase:1,data:'OFF PWR-UP ON'},
+  {                      node: '....U.....V....W..X',phase:1},
+  {},
+  ],
+ 
+  foot:{
+   text:'Figure 8 Debug mode entry',
+   tock:0
+ },
+
+  edge: [
+     'A-|U','B-|V','C-|W','D-|X',
+     'H VDBG',
+     'I >Vsup_uhv',
+     'J >WAKE12(VIH)',
+     'U+V 5 ms'
+  ]
+}
+
+</script>
+</div>
+</section>
+<section id="image">
+<h1>image<a class="headerlink" href="#image" title="此标题的永久链接"></a></h1>
+<img alt="../_images/jw40260.png" src="../_images/jw40260.png" />
+</section>
+<section id="excel">
+<h1>excel<a class="headerlink" href="#excel" title="此标题的永久链接"></a></h1>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-number">表 1 </span><span class="caption-text">registers summary</span><a class="headerlink" href="#id1" title="此表格的永久链接"></a></caption>
+<tbody>
+<tr class="row-odd"><td rowspan="21"><p>0x40070050</p></td>
+<td rowspan="2"><p>0x01</p></td>
+<td rowspan="2"><p>PHASE_CONFIG</p></td>
+<td rowspan="2"><blockquote>
+<div><p>8</p>
+</div></blockquote>
+<p>===</p>
+</td>
+<td rowspan="2"><blockquote>
+<div><p>[7:5]</p>
+</div></blockquote>
+<blockquote>
+<div><p>[4:0]</p>
+</div></blockquote>
+</td>
+<td rowspan="2"><blockquote>
+<div><p>PH_CFG</p>
+</div></blockquote>
+<blockquote>
+<div><p>CHECK</p>
+</div></blockquote>
+</td>
+<td rowspan="2"><blockquote>
+<div><p>RW</p>
+</div></blockquote>
+<blockquote>
+<div><p>RW</p>
+</div></blockquote>
+</td>
+<td rowspan="2"><blockquote>
+<div><p>3’b0</p>
+</div></blockquote>
+<blockquote>
+<div><p>5’b0</p>
+</div></blockquote>
+</td>
+<td rowspan="2"><blockquote>
+<div><p>000b = 1+1+1+1;
+100b = 2+1+1;
+101b = 2+2
+110b = 3+1
+111b = 4+0
+Others are reserved</p>
+</div></blockquote>
+<blockquote>
+<div><p>1010b = The writing command is valid data;
+Others = The writing command is invalid. (Register value
+doesn’t changed).
+Always read 0.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="row-even"></tr>
+<tr class="row-odd"><td rowspan="3"><p>0x02</p></td>
+<td rowspan="3"><p>IC_VERSION</p></td>
+<td><p>8</p></td>
+<td><p>[7:5]</p></td>
+<td><p>Die_ver</p></td>
+<td><p>RO</p></td>
+<td><p>3’b0</p></td>
+<td><p>Die version.TBD</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>[4]</p></td>
+<td><p>reserved</p></td>
+<td><p>RO</p></td>
+<td><p>1’b0</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>[3:0]</p></td>
+<td><p>Trim_ver</p></td>
+<td><p>RO</p></td>
+<td><p>4’b0</p></td>
+<td><p>Trim version</p></td>
+</tr>
+<tr class="row-even"><td><p>0x03</p></td>
+<td><p>I2C_MODE</p></td>
+<td><p>8</p></td>
+<td><p>[7:0]</p></td>
+<td><p>xxx</p></td>
+<td><p>RW</p></td>
+<td><p>8’b0</p></td>
+<td><p>TBD</p></td>
+</tr>
+<tr class="row-odd"><td rowspan="5"><p>0x10</p></td>
+<td rowspan="5"><p>SYS_STATUS</p></td>
+<td><p>8</p></td>
+<td><p>[7]</p></td>
+<td><p>VIN_UV</p></td>
+<td><p>RO</p></td>
+<td><p>1’b0</p></td>
+<td><p>Indicates input Under Voltage Lock-out
+1= Input voltage UVLO;</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>[6]</p></td>
+<td><p>VIN_OV</p></td>
+<td><p>RO</p></td>
+<td><p>1’b0</p></td>
+<td><p>Indicates that input Voltage is higher than 6V.
+1= Input voltage OV;</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>[5:2]</p></td>
+<td><p>reserved</p></td>
+<td><p>RO</p></td>
+<td><p>4’b0</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>[1]</p></td>
+<td><p>OTP</p></td>
+<td><p>RO</p></td>
+<td><p>1’b0</p></td>
+<td><p>1= Junction temperature higher than 145℃ and trigger OTP</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>[0]</p></td>
+<td><p>OTW</p></td>
+<td><p>RO</p></td>
+<td><p>1’b0</p></td>
+<td><p>1= Junction temperature higher than 130℃</p></td>
+</tr>
+<tr class="row-even"><td rowspan="5"><p>0x12</p></td>
+<td rowspan="5"><p>BUCK1_STATUS</p></td>
+<td><p>8</p></td>
+<td><p>[7]</p></td>
+<td><p>BK1_OC</p></td>
+<td><p>RO</p></td>
+<td><p>1’b0</p></td>
+<td><dl class="simple">
+<dt>1= BUCK1 triggers over current limitation;</dt><dd><p>reset to 0 after read the value.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>[6]</p></td>
+<td><p>BK1_OV</p></td>
+<td><p>RO</p></td>
+<td><p>1’b0</p></td>
+<td><p>1= BUCK1 triggers output OVP;</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>[5]</p></td>
+<td><p>BK1_UV</p></td>
+<td><p>W1C</p></td>
+<td><p>1’b0</p></td>
+<td><p>1= BUCK1 triggers output UVP;
+Write 1 reset the value to zero</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>[4]</p></td>
+<td><p>BK1_PG</p></td>
+<td><p>RO</p></td>
+<td><p>1’b0</p></td>
+<td><p>1= BUCK1 output voltage is within the setting range</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>[3:0]</p></td>
+<td><p>reserved</p></td>
+<td><p>RO</p></td>
+<td><p>4’b0</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td rowspan="5"><p>0x13</p></td>
+<td rowspan="5"><p>BUCK2_STATUS</p></td>
+<td><p>8</p></td>
+<td><p>[7]</p></td>
+<td><p>BK2_OC</p></td>
+<td><p>RO</p></td>
+<td><p>1’b0</p></td>
+<td><dl class="simple">
+<dt>1= BUCK2 triggers over current limitation;</dt><dd><p>reset to 0 after read the value.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>[6]</p></td>
+<td><p>BK2_OV</p></td>
+<td><p>RO</p></td>
+<td><p>1’b0</p></td>
+<td><p>1= BUCK2 triggers output OVP;</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>[5]</p></td>
+<td><p>BK2_UV</p></td>
+<td><p>W1C</p></td>
+<td><p>1’b0</p></td>
+<td><p>1= BUCK2 triggers output UVP;
+Write 1 reset the value to zero</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>[4]</p></td>
+<td><p>BK2_PG</p></td>
+<td><p>RO</p></td>
+<td><p>1’b0</p></td>
+<td><p>1= BUCK2 output voltage is within the setting range</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>[3:0]</p></td>
+<td><p>reserved</p></td>
+<td><p>RO</p></td>
+<td><p>4’b0</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+    <script type="text/javascript">
+        function init() {
+            WaveDrom.ProcessAll();
+        }
+        window.onload = init;
+    </script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to jwq40260’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../register.html" class="btn btn-neutral float-right" title="Register1" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2023, dafei.xiao.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

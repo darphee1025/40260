@@ -1,0 +1,27 @@
+{ "signal" : [
+  { "name": "bist_start"   ,     "wave": "010.........................."},
+  { "name": "bist_done"    ,     "wave": "0.........................10."},
+  { "name": "bist_fsm"     ,     "wave": "3.4..|4...|4..|5..|5..|5..|6.", "data": ["idle",
+                                                                                   "bist_one_hold", "bist_one_high", "bist_one_low",
+                                                                                   "bist_two_hold", "bist_two_high", "bist_two_low",
+                                                                                   "finish"] },
+  {                              "node": "..a...b....c...d...e...f...g."},                          
+  { "name": "bisten"       ,     "wave": "0.1........................0."},
+  { "name": "bisten_cmon"  ,     "wave": "0.1..|....|...|0............."},
+  { "name": "bisten_vddio" ,     "wave": "0.1..|....|...|0............."},
+  { "name": "bisten_vmon1" ,     "wave": "0.1..|....|...|0............."},
+  { "name": "bisten_vmon2" ,     "wave": "0.1..|....|...|0............."},
+  { "name": "bisten_vmon3" ,     "wave": "0.1..|....|...|0............."},
+  { "name": "bisten_vmon4" ,     "wave": "0.1..|....|...|0............."},
+  { "name": "bistenflt"    ,     "wave": "0....|1...|0................."},
+  { "name": "bist_osc_fast",     "wave": "0.1..|....|...|0............."},
+  { "name": "bist_osc_slow",     "wave": "0..............1..|...|...|0."},
+  { "name": "bistplup_fs0b",     "wave": "0....|1...|0................."},
+  { "name": "bistplup_rstb",     "wave": "0....|1...|0................."},
+  { "name": "bistplup_pgood",    "wave": "0....|1...|0................."},
+  { "name": "bisten_tsd"   ,     "wave": "0..............1..|...|...|0."},
+  { "name": "bistflt_tsd"  ,     "wave": "0.................|1...|0...."},
+  { "name": "vdig_fs_bistflt",   "wave": "0.................|1...|0...."}
+],
+  edge: ['a<->b 100us','b<->c 150us ','c<->d 100us','d<->e 100us','e<->f 150us','f<->g 100us']
+}

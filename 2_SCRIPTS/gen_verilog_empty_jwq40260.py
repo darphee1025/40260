@@ -4,7 +4,7 @@ __author__ = 'Darphee'
 
 
 
-#  Last Modified: Sun Oct  8 16:30:30 2023
+#  Last Modified: Wed Oct 25 15:59:38 2023
 
 
 
@@ -46,6 +46,8 @@ def gen_verilog_empty(sheet_number):
     ##端口名字 clk rst_n din dout
     port_name=[]
     ##位宽 1 1 4 3
+    connect_name=[]
+
     port_width=[]##
     ## 端口方向 input output inout
     port_type=[]
@@ -54,12 +56,14 @@ def gen_verilog_empty(sheet_number):
     ## 注释
     port_comment=[]
 
+
     for i in range(row_num):
-        port_name.append   (table.cell(row=i+1,column=1).value)##excel中的第1列
-        port_type.append   (table.cell(row=i+1,column=2).value)##excel中的第2列
-        port_width.append  (table.cell(row=i+1,column=3).value)##excel中的第3列
-        port_rst.append    (table.cell(row=i+1,column=4).value)##excel中的第4列
-        port_comment.append(table.cell(row=i+1,column=5).value)##excel中的第5列
+        port_name.append   (table.cell(row=i+1,column=2 ).value)##excel中的第n列
+        connect_name.append(table.cell(row=i+1,column=4 ).value)##excel中的第n列
+        port_type.append   (table.cell(row=i+1,column=7 ).value)##excel中的第n列
+        port_width.append  (table.cell(row=i+1,column=8 ).value)##excel中的第n列
+        port_rst.append    (table.cell(row=i+1,column=9 ).value)##excel中的第n列
+        port_comment.append(table.cell(row=i+1,column=10).value)##excel中的第n列
         #print(port_name)
         #print(port_type)
         #print(port_width)
@@ -87,17 +91,33 @@ def gen_verilog_empty(sheet_number):
             else:
                 file_obj.write(port_str+" wire "+ ' [' + str(port_width[i + 1] - 1) + ':0]' + port_name[i + 1] + '//'+ str(port_comment[i+1]) + '\n );\n\n')
 
+
         for i in range(row_num-1):
-            if(port_type[i+1] == "O"):
-                file_obj.write("assign "+ port_name[i+1] +" = " + str(port_rst[i+1]) +';\n')
+            cell_null = table.cell(row = i+2 , column=4).value 
+            if(port_width[i+1]== 1):
+                width_str=""
             else:
-                file_obj.write('')
+                width_str=" ["+str(port_width[i+1]-1)+':0]'
+
+            if cell_null is not None:
+                if(port_type[i+1] == "I"):
+                    file_obj.write("wire   "+width_str +str(connect_name[i+1])+';//'+ str(port_type[i+1]) + '\n')
+                    file_obj.write("assign "+ str(connect_name[i+1]) +" = " + str(port_name[i+1]) + ';' + '\n' )
+                else:
+                    file_obj.write("wire   "+width_str + str(connect_name[i+1])+';\n')
+                    file_obj.write("assign "+ str(port_name[i+1]) +" = " + str(connect_name[i+1]) + ';//' + str(port_type[i+1])  + '\n')
+
+            #if(port_type[i+1] == "O"):
+            #    file_obj.write("assign "+ port_name[i+1] +" = " + str(port_rst[i+1]) +';\n')
+            #else:
+            #    file_obj.write('')
 
         file_obj.write('endmodule')
 
 def main():
-    gen_verilog_empty(sheet_number=0)
-    gen_verilog_empty(sheet_number=1)
+    gen_verilog_empty(sheet_number=2)
+    gen_verilog_empty(sheet_number=3)
+    gen_verilog_empty(sheet_number=4)
 
 
 if __name__ == "__main__":
